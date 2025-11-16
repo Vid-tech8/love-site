@@ -104,7 +104,113 @@ function createHeart() {
 setInterval(createHeart, 500);
 </script>
 
+<!-- Additional Cute Messages Section -->
+<div class="more-messages" style="margin-top:25px; animation: popIn 1s ease;">
+  <h2 style="color:#ff5fa8;">More Things I Want You To Know 💞</h2>
+  <p style="color:#ff7fbb; font-size:18px;">• You're the sparkle in my every day ✨</p>
+  <p style="color:#ff7fbb; font-size:18px;">• I smile every time I think of you 💗</p>
+  <p style="color:#ff7fbb; font-size:18px;">• I'm so lucky to have you in my life 🌸</p>
+  <p style="color:#ff7fbb; font-size:18px;">• I’ll always try to make things right with you 🍓</p>
+</div>
+
+<!-- Simple Navigation to Additional Pages -->
+<div style="margin-top:30px;">
+  <a href="#page2" style="display:block; margin:10px; color:#ff4b8a; font-size:20px; text-decoration:none;">💖 Page 2 – A Little Love Note</a>
+  <a href="#page3" style="display:block; margin:10px; color:#ff4b8a; font-size:20px; text-decoration:none;">💝 Page 3 – Reasons I Love You</a>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" style="margin-top:60px; padding:20px; border-radius:20px; background:#fff0f7; box-shadow:0 0 15px #ffc1dd;">
+  <h2 style="color:#ff4590;">A Little Love Note 💌</h2>
+  <p style="color:#ff77b5; font-size:18px;">If I could write a million words, they still wouldn’t be enough to tell you how special you are to me… 💕</p>
+  <p style="color:#ff77b5; font-size:18px;">Thank you for being patient with me. Thank you for being YOU. 🌷</p>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" style="margin-top:60px; padding:20px; border-radius:20px; background:#fff0f7; box-shadow:0 0 15px #ffc1dd;">
+  <h2 style="color:#ff4590;">Reasons I Love You 💗</h2>
+  <ul style="list-style:none; padding:0; color:#ff77b5; font-size:18px;">
+    <li>• Your smile melts everything bad away ✨</li>
+    <li>• You care more than you admit 💞</li>
+    <li>• You make everything feel softer and warmer 🌸</li>
+    <li>• You make me want to be a better person 💖</li>
+  </ul>
+</div>
+
+
+<!-- Background Music -->
+<audio id="bg-music" src="romantic_piano.wav" loop></audio>
+<button onclick="document.getElementById('bg-music').play()" style="margin-top:20px; padding:10px 20px; border:none; background:#ff7fbb; color:white; border-radius:20px; font-size:18px; cursor:pointer;">🎶 Play Music</button>
+
+<!-- Hidden Message Button -->
+<div style="margin-top:30px;">
+  <button id="revealBtn" style="padding:12px 22px; background:#ff61a8; color:white; border:none; border-radius:20px; font-size:18px; cursor:pointer;">💞 Reveal a Secret Message</button>
+  <p id="hiddenMsg" style="display:none; font-size:20px; color:#ff4b8a; margin-top:15px;">You are the best thing that ever happened to me 💗</p>
+</div>
+
+<!-- Sparkle Trail -->
+<style>
+  .sparkle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ffb3e6, #ff66c4);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fadeOut 0.8s linear forwards;
+  }
+  @keyframes fadeOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+  }
+</style>
+
+<!-- Heart Burst Animation -->
+<style>
+  .burst-heart {
+    position: absolute;
+    font-size: 22px;
+    animation: burst 0.6s ease-out forwards;
+  }
+  @keyframes burst {
+    0% { transform: scale(0.3); opacity:1; }
+    100% { transform: scale(1.6); opacity:0; }
+  }
+</style>
+
+<script>
+// Reveal Hidden Message
+const btn = document.getElementById('revealBtn');
+const msg = document.getElementById('hiddenMsg');
+btn.addEventListener('click', () => {
+  msg.style.display = 'block';
+  btn.style.display = 'none';
+});
+
+// Sparkle Trail
+window.addEventListener('mousemove', (e) => {
+  const sparkle = document.createElement('div');
+  sparkle.classList.add('sparkle');
+  sparkle.style.left = e.pageX + 'px';
+  sparkle.style.top = e.pageY + 'px';
+  document.body.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 800);
+});
+
+// Heart Burst on Image Click
+const images = document.querySelectorAll('img');
+images.forEach(img => {
+  img.addEventListener('click', (e) => {
+    const heart = document.createElement('div');
+    heart.classList.add('burst-heart');
+    heart.innerText = '💘';
+    heart.style.left = e.pageX + 'px';
+    heart.style.top = e.pageY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 600);
+  });
+});
+</script>
+
 </body>
 </html>
-
-
