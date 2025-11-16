@@ -1,223 +1,110 @@
-
-import React, {useState, useEffect
-
-  // Heart trail effect
-  useEffect(() => {
-    const hearts = [];
-    function spawnHeart(e) {
-      const h = document.createElement('div');
-      h.textContent = '💖';
-      h.style.position = 'fixed';
-      h.style.left = e.clientX + 'px';
-      h.style.top = e.clientY + 'px';
-      h.style.pointerEvents = 'none';
-      h.style.animation = 'trailHeart 1.2s ease-out forwards';
-      document.body.appendChild(h);
-      hearts.push(h);
-      setTimeout(() => h.remove(), 1200);
-    }
-    window.addEventListener('mousemove', spawnHeart);
-    return () => window.removeEventListener('mousemove', spawnHeart);
-  }, []);
-
-  // Bubble particles
-  useEffect(() => {
-    const container = document.body;
-    const interval = setInterval(() => {
-      const b = document.createElement('div');
-      b.className = 'floating-bubble';
-      container.appendChild(b);
-      setTimeout(() => b.remove(), 4000);
-    }, 800);
-    return () => clearInterval(interval);
-  }, []);, useRef} from "react";
-
-export default function CuteLoveSite() {
-  const photos = [
-    'PLACEHOLDER_PHOTO_1',
-    'https://i.imgur.com/VpGf4rD.jpeg',
-    'https://i.imgur.com/t3X8Z3r.jpeg'
-  ];
-
-  const [idx, setIdx] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const [showApology, setShowApology] = useState(false);
-  const autoplayRef = useRef();
-
-  useEffect(() => {
-    autoplayRef.current = () => setIdx(i => (i + 1) % photos.length);
-  }, [photos.length]);
-
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => autoplayRef.current(), 3000);
-    return () => clearInterval(id);
-  }, [playing]);
-
-  function prev() { setIdx(i => (i - 1 + photos.length) % photos.length); }
-  function next() { setIdx(i => (i + 1) % photos.length); }
-
-  function handleApology() {
-    setShowApology(true);
-    // small confetti effect by toggling a CSS class
-    const conf = document.createElement('div');
-    conf.className = 'confetti-wrap fixed inset-0 pointer-events-none';
-    document.body.appendChild(conf);
-    setTimeout(() => document.body.removeChild(conf), 3200);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #ffeaf6, #fff);
+    text-align: center;
+    padding: 20px;
+    overflow-x: hidden;
   }
 
-  function generateCaption(name = 'Babe'){
-    return `To ${name}, I'm sorry. I love you more than all my mistakes. 💖 #SorryBabe`;
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex items-center justify-center p-6">
-      <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="flex flex-col md:flex-row">
-
-          {/* Left: Instagram-style square area ready for screenshot */}
-          <div className="w-full md:w-1/2 bg-pink-100 flex items-center justify-center p-6">
-            <div className="w-[540px] h-[540px] bg-white rounded-xl shadow-inner relative overflow-hidden instagram-square" style={{width: '540px', height: '540px'}}>
-
-              {/* Decorative header */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-pink-300 flex items-center justify-center text-white font-bold">U</div>
-                  <div>
-                    <div className="text-sm font-semibold">Vidushi ❤️</div>
-                    <div className="text-xs opacity-70">Forever & Always</div>
-                  </div>
-                </div>
-                <div className="text-xs opacity-60">Nov 2025</div>
-              </div>
-
-              <div className="ribbon"></div>
-              {/* Photo slideshow */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img src={photos[idx]} alt="couple" className="object-cover w-full h-full" onError={(e)=>{e.currentTarget.style.objectFit='contain'; e.currentTarget.src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="540" height="540"><rect width="100%" height="100%" fill="%23fde8ef"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23ff6b9a" font-size="24">Replace with your photo</text></svg>'}}/>
-              </div>
-
-              {/* Slideshow controls */}
-              <button onClick={prev} aria-label="previous" className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow">
-                ‹
-              </button>
-              <button onClick={next} aria-label="next" className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow">
-                ›
-              </button>
-
-              {/* Heart + short message */}
-              <div className="absolute bottom-4 left-4 right-4 text-center">
-                <div className="mx-auto w-fit px-4 py-2 rounded-full bg-white/90 shadow flex items-center gap-3">
-                  <HeartIcon className="w-6 h-6 animate-pulse" />
-                  <div>
-                    <div className="font-semibold typewriter">I'm sorry ♥</div>
-                    <div className="text-xs opacity-70">You’re my favourite human 💗 Please don’t stay mad…</div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right: Messages, controls, caption */}
-          <div className="w-full md:w-1/2 p-6">
-            <h2 className="text-2xl font-bold mb-2">Make it up — Cute page for him</h2>
-            <p className="text-sm opacity-80 mb-4">Use this panel to personalise the message, replace photos, and copy a sweet caption for Instagram.</p>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-medium mb-1">Short apology line</label>
-                <input className="w-full border rounded px-3 py-2" placeholder="I'm sorry, I love you" defaultValue="I'm really sorry baby 😔❤️ I never meant to hurt you." id="apology-text" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium mb-1">Nickname for caption</label>
-                <input className="w-full border rounded px-3 py-2" placeholder="e.g. Babe" defaultValue="Babe" id="nick" />
-              </div>
-
-              <div className="flex gap-3">
-                <button className="px-4 py-2 rounded bg-pink-500 text-white font-semibold shadow" onClick={()=>{handleApology(); document.getElementById('apology-text').value && setShowApology(true)}}>Send apology</button>
-                <button className="px-4 py-2 rounded border" onClick={()=>{setPlaying(p=>!p)}}>{playing? 'Pause slideshow':'Play slideshow'}</button>
-                <button className="px-4 py-2 rounded border" onClick={()=>{navigator.clipboard && navigator.clipboard.writeText(generateCaption(document.getElementById('nick')?.value || 'Babe'))}}>Copy caption</button>
-              </div>
-
-              <div className="bg-gray-50 p-3 rounded">
-                <div className="text-sm font-medium mb-2">Preview apology</div>
-                <div className="text-sm text-pink-800">{showApology ? (document.getElementById('apology-text')?.value || "I'm sorry — let's talk.") : 'Click "Send apology" to reveal the message and a cute surprise.'}</div>
-              </div>
-
-              <div className="text-xs opacity-70">Tip: Replace placeholders with your photos, then open the left square (540×540) in a browser and screenshot for an Instagram post.</div>
-            </div>
-
-          </div>
-
-        </div>
-
-        {/* small footer */}
-        <div className="text-center text-xs opacity-60 p-3">Made with ♥ — Screenshot to post on Instagram</div>
-      </div>
-
-      {/* Confetti styles (injected visually) */}
-      <style>{`
-        .instagram-square { border: 14px solid rgba(255,255,255,0.6); border-radius: 18px; }
-        .confetti-wrap::before, .confetti-wrap::after { content: ''; position: absolute; inset:0; pointer-events:none; }
-        /* simple CSS confetti using background gradients */
-        .confetti-wrap { animation: confettiFade 3s ease-out; }
-        @keyframes confettiFade { 0% { opacity: 1 } 100% { opacity: 0 } }
-      `}  .fade-in { animation: fadeIn 1s ease-in forwards; opacity:0; }
-  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-  img { transition: transform 0.4s ease, opacity 0.4s ease; }
-  img:hover { transform: scale(1.03); }
-  .container { transition: transform 0.5s ease; }
-  .container:hover { transform: translateY(-4px); }
-  /* Cute bubbly animations */
-  .bubble-pop { animation: pop 0.5s ease-out; }
-  @keyframes pop { 0%{ transform:scale(0.6); opacity:0;} 60%{transform:scale(1.15); opacity:1;} 100%{transform:scale(1);} }
-
-  .floating-hearts::after {
-    content: '💖 💕 💗 💞';
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -10px;
+    color: #ff7fbf;
     font-size: 20px;
-    animation: floatHearts 4s infinite ease-in-out;
-    opacity: 0.7;
+    animation: floatUp 4s linear infinite;
+    opacity: 0.8;
   }
-  @keyframes floatHearts {
-    0% { transform: translateY(20px); opacity:0; }
-    50% { opacity:1; }
-    100% { transform: translateY(-20px); opacity:0; }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
   }
 
-  .btn-bubble {
-    transition: transform 0.25s ease;
+  .container {
+    background: white;
+    max-width: 520px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 0 25px #ffb6d9;
+    transform: scale(0.9);
+    animation: popIn 0.8s ease forwards;
   }
-  .btn-bubble:hover {
-    transform: scale(1.1) rotate(1deg);
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
-  @keyframes trailHeart { 0%{transform:translateY(0) scale(1); opacity:1;} 100%{transform:translateY(-40px) scale(0.6); opacity:0;} }
-  .floating-bubble { position: fixed; bottom: -20px; left: calc(10% + 80% * var(--rand)); width: 14px; height: 14px; background: rgba(255,182,193,0.5); backdrop-filter: blur(4px); border-radius: 50%; animation: rise 4s linear forwards; }
-  @keyframes rise { 0%{transform:translateY(0) scale(1);} 100%{transform:translateY(-120vh) scale(1.6);} }
-  .ribbon { position:absolute; top:0; right:0; width:90px; height:90px; background:linear-gradient(135deg,#ff9acb,#ff5fa2); clip-path:polygon(100% 0,0 0,100% 100%); opacity:0.9; }
-  .typewriter { overflow:hidden; white-space:nowrap; animation: typing 3s steps(40) forwards; }
-  @keyframes typing { from{width:0;} to{width:100%;} }
+
+  h1 {
+    color: #ff4b8a;
+    font-size: 30px;
+    animation: wiggle 1s infinite ease-in-out;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  p {
+    font-size: 18px;
+    color: #ff6fa8;
+    margin-bottom: 15px;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 18px;
+    margin-top: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ff9ac9;
+  }
 </style>
-    </div>
-  );
-}
+</head>
+<body>
 
-function HeartIcon({className=''}){
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-      <path d="M12 21s-7-4.434-9.2-6.657C0.867 11.9 3.5 6.5 8.4 7.2 10.1 7.5 11 9.2 12 10.6c1-.9 1.9-2.9 3.6-3.4 4.9-.7 7.5 4.7 5.6 7.1C19 16.5 12 21 12 21z" fill="url(#g)" stroke="none" />
-      <defs>
-        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ff8ab6" />
-          <stop offset="100%" stopColor="#ff3b7a" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
+<div class="container">
+  <h1>I'm really sorry baby 😔❤️</h1>
+  <p>You mean the world to me… please don't stay mad 💗</p>
+
+  <img src="adaa98f6-232f-45ea-92ce-0a019a0dba25.jpg">
+  <img src="6d078cad-7504-4449-96ca-12a73d64d5ec.jpg">
+  <img src="7d1692f8-d0d5-42de-9859-582960e5657b.jpg">
+  <img src="464ff904-cc75-4bd7-a62a-edc32cec446c.jpg">
+  <img src="99834871-ba95-4adf-9e0f-dbc5f92ad15c.jpg">
+</div>
+
+<script>
+// Generate floating hearts
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerText = '💖';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = (20 + Math.random() * 20) + 'px';
+  heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
 }
+setInterval(createHeart, 500);
+</script>
+
+</body>
+</html>
+
 
